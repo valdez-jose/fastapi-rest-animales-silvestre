@@ -1,5 +1,35 @@
 
+# --- Entornos Virtuales (NUNCA se suben, pesan mucho) ---
+.venv/
 venv/
+env/
+ENV/
+
+# --- Base de datos local (Para que no subas tus datos de prueba) ---
+*.sqlite
+*.sqlite3
+
+# --- Archivos de configuración y secretos (¡MUY IMPORTANTE!) ---
 .env
+*.env
+
+# --- Caché de Python (Archivos temporales que genera Python al correr) ---
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# --- Configuraciones de Editores de Código ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# --- Sistema Operativo (Basura del sistema) ---
+.DS_Store
+Thumbs.db

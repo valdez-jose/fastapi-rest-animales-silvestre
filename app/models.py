@@ -11,4 +11,5 @@ class Animal(Base):
     nombre_cientifico = Column(String, nullable=False)
     habitat = Column(String, nullable=False)
     estado_conservacion = Column(String, nullable=False)
+    imagen_url = Column(String, nullable=True)
     registrado_en = Column(DateTime, default=lambda: datetime.now(timezone.utc))
