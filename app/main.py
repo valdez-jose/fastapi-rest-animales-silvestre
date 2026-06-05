@@ -19,8 +19,7 @@ app = FastAPI(
 async def raiz():
     return {
         "status": "online",
-        "mensaje": "API de Animales Silvestres corriendo perfectamente",
-        "documentacion": "http://127.0.0.1:8000/docs"
+        "mensaje": "API de Animales Silvestres corriendo perfectamente"
     }
 
 # 3. El bloque de arranque automático (Startup)
