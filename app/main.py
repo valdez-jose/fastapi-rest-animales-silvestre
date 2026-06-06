@@ -1,9 +1,11 @@
 
 from fastapi import FastAPI, Depends, HTTPException, status
+# 1. Agregamos la importación del middleware de CORS aquí arriba:
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
-# 1. Importaciones de tus otros archivos modulares
+# Importaciones de tus otros archivos modulares
 from app.database import engine, Base, get_db
 from app.schemas import AnimalCreate, AnimalResponse
 from app import crud
@@ -14,6 +16,22 @@ app = FastAPI(
     description="CRUD asíncrono listo para producción en Render."
 )
 
+# 3. Configuración de CORS (Pégalo justo aquí)
+origins = [
+    "http://127.0.0.1:5500",  # Tu Live Server local (VS Code)
+    "http://localhost:5500",   # Por si acaso usas localhost en lugar de la IP
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],      # Permite GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],      # Permite todas las cabeceras (headers)
+)
+
+# --- De aquí para abajo tu código se queda exactamente igual ---
+
 # Ruta raíz para verificar el estado de la API
 @app.get("/")
 async def raiz():
@@ -22,16 +40,15 @@ async def raiz():
         "mensaje": "API de Animales Silvestres corriendo perfectamente"
     }
 
-# 3. El bloque de arranque automático (Startup)
-# Corre una sola vez al encender la app para crear las tablas en la base de datos
+# El bloque de arranque automático (Startup)
 @app.on_event("startup")
 async def startup():
     async with engine.begin() as conn:
-        await conn.get_context() if hasattr(engine, 'get_context') else None # Control interno de sesión
+        await conn.get_context() if hasattr(engine, 'get_context') else None 
         await conn.run_sync(Base.metadata.create_all)
 
 
-# 4. Tus Endpoints / Rutas del CRUD (Conviven perfectamente aquí abajo)
+# Tus Endpoints / Rutas del CRUD
 
 # Ruta para CREAR un animal
 @app.post("/animales/", response_model=AnimalResponse, status_code=status.HTTP_201_CREATED)
@@ -58,7 +75,6 @@ async def eliminar_animal(animal_id: int, db: AsyncSession = Depends(get_db)):
     if db_animal is None:
         raise HTTPException(status_code=404, detail="Animal no encontrado")
     return db_animal
-
 
 # Ruta para ACTUALIZAR un animal por su ID
 @app.put("/animales/{animal_id}", response_model=AnimalResponse)
