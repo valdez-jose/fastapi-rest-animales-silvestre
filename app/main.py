@@ -20,6 +20,7 @@ app = FastAPI(
 origins = [
     "http://127.0.0.1:5500",  # Tu Live Server local (VS Code)
     "http://localhost:5500",   # Por si acaso usas localhost en lugar de la IP
+     "*" # Permite cualquier origen (útil para desarrollo, pero ten cuidado en producción)
 ]
 
 app.add_middleware(
