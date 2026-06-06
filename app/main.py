@@ -16,21 +16,13 @@ app = FastAPI(
     description="CRUD asíncrono listo para producción en Render."
 )
 
-# 3. Configuración de CORS (Pégalo justo aquí)
-origins = [
-    "http://127.0.0.1:5500",  # Tu Live Server local (VS Code)
-    "http://localhost:5500",   # Por si acaso usas localhost en lugar de la IP
-     "*" # Permite cualquier origen (útil para desarrollo, pero ten cuidado en producción)
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],      # Permite GET, POST, PUT, DELETE, etc.
-    allow_headers=["*"],      # Permite todas las cabeceras (headers)
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
-
 # --- De aquí para abajo tu código se queda exactamente igual ---
 
 # Ruta raíz para verificar el estado de la API
